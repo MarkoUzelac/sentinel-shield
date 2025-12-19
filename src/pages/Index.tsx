@@ -1,48 +1,30 @@
+import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { LegalDisclaimer } from "@/components/LegalDisclaimer";
+import { NetworkSpeedTest } from "@/components/NetworkSpeedTest";
 import { ToolCategories } from "@/components/ToolCategories";
 import { ToolComparison } from "@/components/ToolComparison";
 import { ThreatAssessment } from "@/components/ThreatAssessment";
-import { JurisdictionInfo } from "@/components/JurisdictionInfo";
-import { Shield, Github, Heart } from "lucide-react";
+import { ProfessionalServices } from "@/components/ProfessionalServices";
+import { SubscriptionPlans } from "@/components/SubscriptionPlans";
+import { ExtendedJurisdictionInfo } from "@/components/ExtendedJurisdictionInfo";
+import { FAQ } from "@/components/FAQ";
+import { Newsletter } from "@/components/Newsletter";
+import { CookieConsent } from "@/components/CookieConsent";
+import { Shield, Github, Heart, Mail, Phone } from "lucide-react";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
-                <Shield className="w-5 h-5 text-primary" />
-              </div>
-              <span className="font-mono font-bold text-foreground">SecHub</span>
-            </div>
-            
-            <div className="hidden md:flex items-center gap-6">
-              <a href="#tools" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Alati
-              </a>
-              <a href="#comparison" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Usporedba
-              </a>
-              <a href="#assessment" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Procjena
-              </a>
-              <a href="#laws" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Zakoni
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
-      {/* Main content */}
       <main className="pt-16">
         <HeroSection />
-        
         <LegalDisclaimer />
+        
+        <div id="speedtest">
+          <NetworkSpeedTest />
+        </div>
         
         <div id="tools">
           <ToolCategories />
@@ -56,25 +38,64 @@ const Index = () => {
           <ThreatAssessment />
         </div>
         
-        <div id="laws">
-          <JurisdictionInfo />
-        </div>
+        <ProfessionalServices />
+        <SubscriptionPlans />
+        <ExtendedJurisdictionInfo />
+        <FAQ />
+        <Newsletter />
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card/50 py-12 px-4">
+      <footer id="contact" className="border-t border-border bg-card/50 py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
-                <Shield className="w-5 h-5 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <Shield className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <span className="font-mono font-bold text-foreground">SecHub</span>
+                  <span className="text-xs text-primary ml-2">Pro</span>
+                </div>
               </div>
-              <div>
-                <span className="font-mono font-bold text-foreground">SecHub</span>
-                <p className="text-xs text-muted-foreground">Edukativna platforma</p>
+              <p className="text-sm text-muted-foreground max-w-md">
+                Vodeća platforma za edukaciju o mobilnoj sigurnosti i profesionalnu 
+                zaštitu od digitalnog nadzora. GDPR compliant, EU-based.
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-foreground mb-4">Kontakt</h4>
+              <div className="space-y-2">
+                <a href="mailto:info@sechub.pro" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <Mail className="w-4 h-4" />
+                  info@sechub.pro
+                </a>
+                <a href="tel:+385991234567" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <Phone className="w-4 h-4" />
+                  +385 99 123 4567
+                </a>
               </div>
             </div>
             
+            <div>
+              <h4 className="font-semibold text-foreground mb-4">Poveznice</h4>
+              <div className="space-y-2">
+                <a href="#services" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Usluge
+                </a>
+                <a href="#pricing" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Cijene
+                </a>
+                <a href="#faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  FAQ
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground flex items-center gap-2">
               Napravljeno s <Heart className="w-4 h-4 text-destructive" /> za sigurnosnu zajednicu
             </p>
@@ -89,15 +110,15 @@ const Index = () => {
                 <Github className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
               </a>
             </div>
-          </div>
-          
-          <div className="mt-8 pt-8 border-t border-border text-center">
+            
             <p className="text-xs text-muted-foreground">
-              © 2025 SecHub. Svi podaci su javno dostupni. Korištenje alata za ilegalne svrhe nije podržano.
+              © 2025 SecHub Pro. Svi podaci su javno dostupni.
             </p>
           </div>
         </div>
       </footer>
+
+      <CookieConsent />
     </div>
   );
 };
