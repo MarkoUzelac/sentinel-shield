@@ -44,17 +44,17 @@ export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 py-3">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-3 md:px-4 py-2 md:py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 group-hover:shadow-glow-primary transition-all duration-300">
-              <Shield className="w-5 h-5 text-primary" />
+          <a href="#" className="flex items-center gap-2 md:gap-3 group">
+            <div className="p-1.5 md:p-2 rounded-lg bg-primary/10 border border-primary/20 group-hover:shadow-glow-primary transition-all duration-300">
+              <Shield className="w-4 h-4 md:w-5 md:h-5 text-primary" />
             </div>
             <div>
-              <span className="font-mono font-bold text-foreground">SecHub</span>
-              <span className="hidden sm:inline text-xs text-primary ml-2 font-mono">Pro</span>
+              <span className="font-mono font-bold text-sm md:text-base text-foreground">SecHub</span>
+              <span className="text-[10px] md:text-xs text-primary ml-1 md:ml-2 font-mono">Pro</span>
             </div>
           </a>
 

@@ -99,37 +99,37 @@ export const ProfessionalServices = () => {
   };
 
   return (
-    <section id="services" className="py-16 px-4 bg-secondary/30">
+    <section id="services" className="py-12 md:py-16 px-4 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <Badge variant="cyber" className="mb-4">SecHub Shield</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
             Profesionalna Detekcija i Zaštita
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto px-4">
             Sumnjate da vas netko prati ili prisluškuje? Naši stručnjaci koriste iste alate
             kao i Amnesty International za forenzičku analizu vaših uređaja.
           </p>
         </div>
 
         {/* Trust badges */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-            <Shield className="w-4 h-4 text-primary" />
-            <span className="text-sm text-foreground">GDPR Compliant</span>
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/10 border border-primary/20 text-xs md:text-sm">
+            <Shield className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+            <span className="text-foreground">GDPR Compliant</span>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-            <Check className="w-4 h-4 text-primary" />
-            <span className="text-sm text-foreground">EU-Based</span>
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/10 border border-primary/20 text-xs md:text-sm">
+            <Check className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+            <span className="text-foreground">EU-Based</span>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-            <AlertTriangle className="w-4 h-4 text-accent" />
-            <span className="text-sm text-foreground">100% Diskrecija</span>
+          <div className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-primary/10 border border-primary/20 text-xs md:text-sm">
+            <AlertTriangle className="w-3 h-3 md:w-4 md:h-4 text-accent" />
+            <span className="text-foreground">100% Diskrecija</span>
           </div>
         </div>
 
         {/* Service Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
           {services.map((service) => (
             <Card
               key={service.id}

@@ -44,32 +44,32 @@ const faqs = [
 
 export const FAQ = () => {
   return (
-    <section id="faq" className="py-16 px-4">
+    <section id="faq" className="py-12 md:py-16 px-4">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <Badge variant="cyber" className="mb-4">FAQ</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
             Često Postavljana Pitanja
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Odgovori na najčešća pitanja o mobilnoj sigurnosti i zaštiti privatnosti
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-4">
+        <Accordion type="single" collapsible className="w-full space-y-3 md:space-y-4">
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="border border-border rounded-lg bg-card px-6 data-[state=open]:shadow-[0_0_20px_hsl(175_80%_50%/0.1)]"
+              className="border border-border rounded-lg bg-card px-4 md:px-6 data-[state=open]:shadow-[0_0_20px_hsl(175_80%_50%/0.1)]"
             >
-              <AccordionTrigger className="hover:no-underline py-4">
-                <div className="flex items-center gap-3 text-left">
-                  <HelpCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                  <span className="font-medium text-foreground">{faq.question}</span>
+              <AccordionTrigger className="hover:no-underline py-3 md:py-4">
+                <div className="flex items-center gap-2 md:gap-3 text-left">
+                  <HelpCircle className="w-4 h-4 md:w-5 md:h-5 text-primary flex-shrink-0" />
+                  <span className="font-medium text-sm md:text-base text-foreground">{faq.question}</span>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-4 pl-8">
+              <AccordionContent className="text-xs md:text-sm text-muted-foreground pb-3 md:pb-4 pl-6 md:pl-8">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
