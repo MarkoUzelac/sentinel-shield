@@ -55,19 +55,19 @@ const categories = [
 
 export const ToolCategories = () => {
   return (
-    <section className="py-16 px-4">
+    <section className="py-12 md:py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <Badge variant="cyber" className="mb-4">Kategorije</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
             Open-Source Sigurnosni Alati
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
             Pregled alata organiziranih prema namjeni - od detekcije prijetnji do zaštite privatnosti
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {categories.map((category, index) => (
             <Card 
               key={index} 
@@ -75,17 +75,17 @@ export const ToolCategories = () => {
               className="group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <CardHeader>
+              <CardHeader className="pb-2 md:pb-4">
                 <div className="flex items-start justify-between">
-                  <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 group-hover:shadow-[0_0_20px_hsl(175_80%_50%/0.3)] transition-all duration-300">
-                    <category.icon className="w-6 h-6 text-primary" />
+                  <div className="p-2 md:p-3 rounded-lg bg-primary/10 border border-primary/20 group-hover:shadow-[0_0_20px_hsl(175_80%_50%/0.3)] transition-all duration-300">
+                    <category.icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                   </div>
                   {category.warning && (
-                    <Badge variant="warning">Oprez</Badge>
+                    <Badge variant="warning" className="text-[10px] md:text-xs">Oprez</Badge>
                   )}
                 </div>
-                <CardTitle className="text-lg mt-4">{category.title}</CardTitle>
-                <CardDescription>{category.description}</CardDescription>
+                <CardTitle className="text-base md:text-lg mt-3 md:mt-4">{category.title}</CardTitle>
+                <CardDescription className="text-xs md:text-sm">{category.description}</CardDescription>
               </CardHeader>
               
               <CardContent className="space-y-4">
