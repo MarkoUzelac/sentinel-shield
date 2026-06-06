@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { z } from "zod";
 import { Mail, Send, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+
+const emailSchema = z
+  .string()
+  .trim()
+  .min(1, { message: "Email je obavezan" })
+  .email({ message: "Neispravan email" })
+  .max(255, { message: "Email mora biti kraći od 255 znakova" });
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +20,17 @@ export const Newsletter = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email) return;
-    
+
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast({
+        title: "Neispravan unos",
+        description: result.error.issues[0]?.message ?? "Provjerite email.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
     
     // Simulate API call

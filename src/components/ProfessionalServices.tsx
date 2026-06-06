@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { z } from "zod";
 import { Shield, Search, Eye, Phone, Mail, Check, AlertTriangle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -6,6 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+
+const consultationSchema = z.object({
+  name: z.string().trim().min(1, { message: "Ime je obavezno" }).max(100, { message: "Ime mora biti kraće od 100 znakova" }),
+  email: z.string().trim().email({ message: "Neispravan email" }).max(255, { message: "Email predugačak" }),
+  phone: z.string().trim().max(32, { message: "Telefon predugačak" }).regex(/^[+\d\s().-]*$/, { message: "Neispravan telefon" }).optional().or(z.literal("")),
+  deviceType: z.string().trim().min(1, { message: "Tip uređaja je obavezan" }).max(100, { message: "Tip uređaja predugačak" }),
+  description: z.string().trim().min(10, { message: "Opis mora imati barem 10 znakova" }).max(2000, { message: "Opis mora biti kraći od 2000 znakova" }),
+});
 
 const services = [
   {
@@ -78,6 +87,16 @@ export const ProfessionalServices = () => {
       toast({
         title: "Odaberite uslugu",
         description: "Molimo odaberite jednu od ponuđenih usluga.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const result = consultationSchema.safeParse(formData);
+    if (!result.success) {
+      toast({
+        title: "Neispravan unos",
+        description: result.error.issues[0]?.message ?? "Provjerite unesene podatke.",
         variant: "destructive",
       });
       return;

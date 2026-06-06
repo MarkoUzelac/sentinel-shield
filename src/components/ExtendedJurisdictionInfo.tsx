@@ -241,7 +241,7 @@ export const ExtendedJurisdictionInfo = () => {
     // Detect user's country
     const detectCountry = async () => {
       try {
-        const response = await fetch("http://ip-api.com/json/?fields=countryCode");
+        const response = await fetch("https://ip-api.com/json/?fields=countryCode");
         const data = await response.json();
         setUserCountry(data.countryCode);
       } catch {

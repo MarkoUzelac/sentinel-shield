@@ -142,7 +142,7 @@ export const NetworkSpeedTest = () => {
   const fetchLocation = async () => {
     setLocationLoading(true);
     try {
-      const response = await fetch("http://ip-api.com/json/?fields=status,message,country,countryCode,city,isp,query,timezone,proxy,hosting,lat,lon");
+      const response = await fetch("https://ip-api.com/json/?fields=status,message,country,countryCode,city,isp,query,timezone,proxy,hosting,lat,lon");
       const data = await response.json();
       
       if (data.status === "success") {
