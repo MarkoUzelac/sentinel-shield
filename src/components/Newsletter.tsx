@@ -20,9 +20,17 @@ export const Newsletter = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email) return;
-    
+
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast({
+        title: "Neispravan unos",
+        description: result.error.issues[0]?.message ?? "Provjerite email.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
     
     // Simulate API call
