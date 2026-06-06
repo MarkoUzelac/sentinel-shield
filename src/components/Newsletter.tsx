@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { z } from "zod";
 import { Mail, Send, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+
+const emailSchema = z
+  .string()
+  .trim()
+  .min(1, { message: "Email je obavezan" })
+  .email({ message: "Neispravan email" })
+  .max(255, { message: "Email mora biti kraći od 255 znakova" });
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
