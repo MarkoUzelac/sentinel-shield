@@ -92,6 +92,16 @@ export const ProfessionalServices = () => {
       return;
     }
 
+    const result = consultationSchema.safeParse(formData);
+    if (!result.success) {
+      toast({
+        title: "Neispravan unos",
+        description: result.error.issues[0]?.message ?? "Provjerite unesene podatke.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSubmitting(true);
     
     // Simulate form submission (would go to backend in production)
