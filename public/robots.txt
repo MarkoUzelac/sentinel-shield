@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://tkomesmijepratit.lovable.app/sitemap.xml

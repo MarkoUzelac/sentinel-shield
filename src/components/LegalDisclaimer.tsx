@@ -13,9 +13,9 @@ export const LegalDisclaimer = () => {
             
             <div className="flex-1 space-y-4">
               <div className="flex items-center gap-3 flex-wrap">
-                <h3 className="text-lg font-semibold text-foreground">
+                <h2 className="text-lg font-semibold text-foreground">
                   Pravno upozorenje
-                </h3>
+                </h2>
                 <Badge variant="legal">Članak 143. KZ RH</Badge>
                 <Badge variant="legal">GDPR</Badge>
               </div>

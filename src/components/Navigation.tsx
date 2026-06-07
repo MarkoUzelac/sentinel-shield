@@ -101,6 +101,8 @@ export const Navigation = () => {
               variant="ghost"
               size="icon"
               className="md:hidden"
+              aria-label="Glavni izbornik"
+              aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (

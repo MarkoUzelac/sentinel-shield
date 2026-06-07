@@ -1,0 +1,21 @@
+# SecHub Pro
+
+> Hrvatska platforma za mobilnu sigurnost, detekciju digitalnog nadzora i forenzičku analizu uređaja. Open-source alati, stvarni pravni okvir EU/HR i profesionalne usluge.
+
+SecHub Pro pruža edukaciju, alate i profesionalne usluge za zaštitu od IMSI catchera, spywarea (Pegasus, Predator), neovlaštenog praćenja i curenja podataka. Svi podaci dolaze iz stvarnih izvora (Cloudflare, IP-API, EUR-Lex, NN.hr, MVT/Amnesty, SnoopSnitch, HIBP).
+
+## Pages
+
+- [Početna](/): Pregled platforme, hero i izvori podataka.
+- [Speed Test](/#speedtest): Mjerenje brzine, latencije i WebRTC/DNS leakova.
+- [Alati](/#tools): Kategorizirani open-source sigurnosni alati.
+- [Procjena rizika](/#assessment): Interaktivni kviz za procjenu izloženosti praćenju.
+- [Profesionalne usluge](/#services): Osnovna provjera (€99), Napredna forenzika (€299), Premium zaštita (€599/god).
+- [Pretplate](/#pricing): Free, Pro (€9.99/mj) i Enterprise (€49.99/mj) planovi.
+- [Pravni okvir](/#laws): Zakoni i kazne za EU, US, UK, Hrvatsku i druge jurisdikcije.
+- [FAQ](/#faq): Odgovori na najčešća pitanja o sigurnosti i privatnosti.
+- [Izvori podataka](/#about): 7 provjerenih pružatelja sigurnosnih i nadzornih podataka.
+
+## Optional
+
+- [Kontakt](/#contact): info@sechub.pro, +385 99 123 4567.
