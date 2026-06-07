@@ -11,6 +11,7 @@ import { ExtendedJurisdictionInfo } from "@/components/ExtendedJurisdictionInfo"
 import { FAQ } from "@/components/FAQ";
 import { Newsletter } from "@/components/Newsletter";
 import { CookieConsent } from "@/components/CookieConsent";
+import { AboutProviders } from "@/components/AboutProviders";
 import { Shield, Github, Heart, Mail, Phone } from "lucide-react";
 
 const Index = () => {
@@ -38,6 +39,7 @@ const Index = () => {
           <ThreatAssessment />
         </div>
         
+        <AboutProviders />
         <ProfessionalServices />
         <SubscriptionPlans />
         <ExtendedJurisdictionInfo />
