@@ -382,14 +382,11 @@ export const ExtendedJurisdictionInfo = () => {
 
   const getUserJurisdiction = () => {
     if (!userCountry) return null;
-    // Map country codes to jurisdictions
-    const euCountries = ["AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"];
-    
-    if (userCountry === "HR") return "HR";
+    const directCodes = ["HR","DE","FR","IT","ES","PL","NL","AT","BE","SE","GR","CZ"];
+    if (directCodes.includes(userCountry)) return userCountry;
     if (userCountry === "US") return "US";
     if (userCountry === "GB") return "UK";
-    if (userCountry === "DE") return "DE";
-    if (userCountry === "FR") return "FR";
+    const euCountries = ["AT","BE","BG","CY","CZ","DE","DK","EE","ES","FI","FR","GR","HR","HU","IE","IT","LT","LU","LV","MT","NL","PL","PT","RO","SE","SI","SK"];
     if (euCountries.includes(userCountry)) return "EU";
     return null;
   };
