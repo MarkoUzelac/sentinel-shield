@@ -12,6 +12,7 @@ import { FAQ } from "@/components/FAQ";
 import { Newsletter } from "@/components/Newsletter";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AboutProviders } from "@/components/AboutProviders";
+import { SurveillanceSources } from "@/components/SurveillanceSources";
 import { Shield, Github, Heart, Mail, Phone } from "lucide-react";
 
 const Index = () => {
@@ -40,6 +41,7 @@ const Index = () => {
         </div>
         
         <AboutProviders />
+        <SurveillanceSources />
         <ProfessionalServices />
         <SubscriptionPlans />
         <ExtendedJurisdictionInfo />

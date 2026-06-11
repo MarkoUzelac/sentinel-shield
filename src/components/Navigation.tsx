@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Shield, Menu, X, ChevronDown, Wrench, BookOpen, CreditCard, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +35,7 @@ const navItems = [
     icon: BookOpen,
     items: [
       { label: "Zakoni po jurisdikcijama", href: "#laws" },
+      { label: "Izvori praćenja", href: "#surveillance" },
       { label: "FAQ", href: "#faq" },
       { label: "O nama", href: "#about" },
     ],
@@ -93,8 +95,10 @@ export const Navigation = () => {
           </div>
 
           {/* Right side */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
+            <LanguageSwitcher />
             <ThemeToggle />
+            
             
             {/* Mobile menu button */}
             <Button
