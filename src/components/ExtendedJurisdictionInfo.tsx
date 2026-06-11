@@ -211,25 +211,153 @@ const jurisdictions: Jurisdiction[] = [
     flag: "🇫🇷",
     code: "FR",
     laws: [
-      { 
-        name: "Code pénal Art. 323-1", 
-        description: "Neovlašteni pristup IT sustavima"
-      },
-      { 
-        name: "Loi Informatique et Libertés", 
-        description: "Zakon o informatici i slobodama"
-      },
-      { 
-        name: "Code des postes et des communications", 
-        description: "Zakon o komunikacijama"
-      },
+      { name: "Code pénal Art. 323-1", description: "Neovlašteni pristup IT sustavima", link: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000030939438" },
+      { name: "Code pénal Art. 226-1", description: "Povreda privatnosti / snimanje bez pristanka" },
+      { name: "Loi Informatique et Libertés", description: "Zakon o informatici i slobodama (CNIL)" },
     ],
     penalties: [
       { offense: "Neovlašteni pristup", penalty: "Do 2 godine + €60,000" },
       { offense: "S uništavanjem podataka", penalty: "Do 3 godine + €100,000" },
+      { offense: "Snimanje bez pristanka", penalty: "Do 1 godine + €45,000" },
       { offense: "Protiv države", penalty: "Do 7 godina + €300,000" },
     ],
+    cases: [{ name: "Clearview AI", year: "2022", outcome: "CNIL kazna €20M" }, { name: "Google Cookies", year: "2022", outcome: "€150M" }],
     notes: "CNIL je francuska agencija za zaštitu podataka, jedna od najaktivnijih u EU.",
+  },
+  {
+    region: "Italija",
+    flag: "🇮🇹",
+    code: "IT",
+    laws: [
+      { name: "Codice Penale art. 615-ter", description: "Neovlašteni pristup informatičkom sustavu" },
+      { name: "Codice Penale art. 617-quater", description: "Presretanje elektroničkih komunikacija" },
+      { name: "Codice Privacy (D.Lgs. 196/2003)", description: "Garante per la protezione dei dati" },
+    ],
+    penalties: [
+      { offense: "Neovlašteni pristup", penalty: "Do 3 godine zatvora" },
+      { offense: "Presretanje komunikacija", penalty: "Do 5 godina" },
+      { offense: "Stalkerware/spyware", penalty: "Do 4 godine (art. 617-quater)" },
+    ],
+    cases: [{ name: "Clearview AI", year: "2022", outcome: "Garante €20M" }],
+    notes: "Garante je vrlo aktivan; često prvi u EU kažnjava AI/biometriju.",
+  },
+  {
+    region: "Španjolska",
+    flag: "🇪🇸",
+    code: "ES",
+    laws: [
+      { name: "Código Penal art. 197", description: "Otkrivanje tajni i povreda privatnosti" },
+      { name: "Código Penal art. 197 bis", description: "Neovlašteni pristup IT sustavima" },
+      { name: "LOPDGDD 3/2018", description: "Španjolski GDPR (AEPD)" },
+    ],
+    penalties: [
+      { offense: "Otkrivanje tajni", penalty: "Do 4 godine + €72,000" },
+      { offense: "Pristup sustavu", penalty: "Do 2 godine zatvora" },
+      { offense: "Pegasus/Catalangate", penalty: "U postupku — istraga Audiencia Nacional" },
+    ],
+    notes: "AEPD vodi 'Catalangate' istragu o korištenju Pegasusa protiv katalonskih političara.",
+  },
+  {
+    region: "Poljska",
+    flag: "🇵🇱",
+    code: "PL",
+    laws: [
+      { name: "Kodeks karny art. 267", description: "Neovlašteni pristup informacijama" },
+      { name: "Kodeks karny art. 268", description: "Uništavanje podataka" },
+      { name: "Ustawa o ochronie danych osobowych", description: "UODO – poljski GDPR" },
+    ],
+    penalties: [
+      { offense: "Neovlašteni pristup", penalty: "Do 2 godine zatvora" },
+      { offense: "Presretanje komunikacija", penalty: "Do 5 godina" },
+      { offense: "Pegasus zlouporaba (Sejm istraga 2024)", penalty: "Postupci u tijeku" },
+    ],
+    notes: "Sejm komisija 2024. ispituje korištenje Pegasusa od strane CBA-e pod PiS vladom.",
+  },
+  {
+    region: "Nizozemska",
+    flag: "🇳🇱",
+    code: "NL",
+    laws: [
+      { name: "Wetboek van Strafrecht art. 138ab", description: "Computervredebreuk (računalna provala)" },
+      { name: "AVG / UAVG", description: "Autoriteit Persoonsgegevens" },
+      { name: "Tw (Telecommunicatiewet)", description: "Zakon o telekomunikacijama" },
+    ],
+    penalties: [
+      { offense: "Računalna provala", penalty: "Do 1 godinu (4 g. ako se kopiraju podaci)" },
+      { offense: "Presretanje", penalty: "Do 2 godine" },
+    ],
+    notes: "AP je vrlo aktivan; nizozemski sudovi često prvi tumače GDPR.",
+  },
+  {
+    region: "Austrija",
+    flag: "🇦🇹",
+    code: "AT",
+    laws: [
+      { name: "StGB §118a", description: "Neovlašteni pristup računalnom sustavu" },
+      { name: "DSG (Datenschutzgesetz)", description: "Austrijski GDPR" },
+      { name: "TKG 2021 §108", description: "Zaštita tajnosti komunikacija" },
+    ],
+    penalties: [
+      { offense: "Neovlašteni pristup", penalty: "Do 6 mjeseci ili €360 dnevno" },
+      { offense: "Presretanje (TKG)", penalty: "Do 1 godinu" },
+    ],
+    cases: [{ name: "DSB v. Google Analytics", year: "2022", outcome: "Korištenje GA proglašeno nezakonitim" }],
+    notes: "Prva EU presuda da Google Analytics krši GDPR (Schrems II).",
+  },
+  {
+    region: "Belgija",
+    flag: "🇧🇪",
+    code: "BE",
+    laws: [
+      { name: "Code pénal art. 550bis", description: "Hakiranje" },
+      { name: "Loi du 30 juillet 2018", description: "APD – belgijski GDPR" },
+    ],
+    penalties: [
+      { offense: "Hakiranje", penalty: "Do 2 godine + €25,000" },
+      { offense: "Sa zloupotrebom", penalty: "Do 5 godina" },
+    ],
+    cases: [{ name: "IAB Europe (TCF)", year: "2022", outcome: "APD proglasio IAB TCF nezakonitim" }],
+    notes: "APD je donio presedansku odluku o oglašivačkom TCF okviru.",
+  },
+  {
+    region: "Švedska",
+    flag: "🇸🇪",
+    code: "SE",
+    laws: [
+      { name: "Brottsbalken 4 kap. 9c §", description: "Dataintrång (računalna provala)" },
+      { name: "Dataskyddslagen", description: "IMY – švedski GDPR" },
+    ],
+    penalties: [
+      { offense: "Dataintrång", penalty: "Do 2 godine" },
+      { offense: "Teški oblik", penalty: "Do 6 godina" },
+    ],
+    notes: "IMY (bivši Datainspektionen) izriče redovne GDPR kazne.",
+  },
+  {
+    region: "Grčka",
+    flag: "🇬🇷",
+    code: "GR",
+    laws: [
+      { name: "Poinikos Kodikas art. 370A", description: "Povreda tajnosti komunikacija" },
+      { name: "Law 4624/2019", description: "HDPA – grčki GDPR" },
+    ],
+    penalties: [
+      { offense: "Predator/Intellexa zlouporaba", penalty: "Do 10 god. (KP 370A)" },
+      { offense: "Neovlašteni pristup", penalty: "Do 5 godina" },
+    ],
+    cases: [{ name: "Predatorgate", year: "2022", outcome: "EYP (obavještajna) povezana s Intellexom" }],
+    notes: "Grčka je epicentar Predator spyware skandala u EU.",
+  },
+  {
+    region: "Češka",
+    flag: "🇨🇿",
+    code: "CZ",
+    laws: [
+      { name: "Trestní zákoník §230", description: "Neovlašteni pristup računalnom sustavu" },
+      { name: "Zákon č. 110/2019 Sb.", description: "ÚOOÚ – češki GDPR" },
+    ],
+    penalties: [{ offense: "Pristup sustavu", penalty: "Do 3 godine (8 god. teški oblik)" }],
+    notes: "NÚKIB regulira kibernetičku sigurnost u skladu s NIS2.",
   },
 ];
 
