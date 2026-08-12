@@ -1,8 +1,8 @@
 # SecHub Pro
 
-> Hrvatska platforma za mobilnu sigurnost, detekciju digitalnog nadzora i forenzičku analizu uređaja. Open-source alati, stvarni pravni okvir EU/HR i profesionalne usluge.
+> Platforma za mobilnu sigurnost, detekciju digitalnog nadzora i forenzičku analizu uređaja. Open-source alati, stvarni pravni okvir 27 EU država + UK/SAD, i profesionalne usluge. Dostupno na 24 službena jezika EU.
 
-SecHub Pro pruža edukaciju, alate i profesionalne usluge za zaštitu od IMSI catchera, spywarea (Pegasus, Predator), neovlaštenog praćenja i curenja podataka. Svi podaci dolaze iz stvarnih izvora (Cloudflare, IP-API, EUR-Lex, NN.hr, MVT/Amnesty, SnoopSnitch, HIBP).
+SecHub Pro pruža edukaciju, alate i profesionalne usluge za zaštitu od IMSI catchera, spywarea (Pegasus, Predator, FinFisher, Candiru, Hermit), stalkerwarea, SS7 napada, državnog nadzora i AI biometrijskog praćenja. Svi podaci dolaze iz stvarnih izvora (Citizen Lab, Amnesty Tech, EDPB, ENISA, GSMA, EUR-Lex, NN.hr, Cloudflare, IP-API, HIBP).
 
 ## Pages
 
@@ -10,11 +10,16 @@ SecHub Pro pruža edukaciju, alate i profesionalne usluge za zaštitu od IMSI ca
 - [Speed Test](/#speedtest): Mjerenje brzine, latencije i WebRTC/DNS leakova.
 - [Alati](/#tools): Kategorizirani open-source sigurnosni alati.
 - [Procjena rizika](/#assessment): Interaktivni kviz za procjenu izloženosti praćenju.
+- [Izvori podataka](/#about): 6 provjerenih pružatelja sigurnosnih i nadzornih podataka.
+- [Izvori praćenja i nadziranja](/#surveillance): 11 stvarnih alata i programa nadzora (Pegasus, Predator, FinFisher, stalkerware, IMSI catcher, SS7, PRISM, Chat Control, Clearview AI, AdTech, Candiru) s načinom rada, detekcijom i kaznama po EU jurisdikcijama.
 - [Profesionalne usluge](/#services): Osnovna provjera (€99), Napredna forenzika (€299), Premium zaštita (€599/god).
 - [Pretplate](/#pricing): Free, Pro (€9.99/mj) i Enterprise (€49.99/mj) planovi.
-- [Pravni okvir](/#laws): Zakoni i kazne za EU, US, UK, Hrvatsku i druge jurisdikcije.
+- [Pravni okvir](/#laws): Zakoni i kazne za HR, EU, SAD, UK, DE, FR, IT, ES, PL, NL, AT, BE, SE, GR, CZ.
 - [FAQ](/#faq): Odgovori na najčešća pitanja o sigurnosti i privatnosti.
-- [Izvori podataka](/#about): 7 provjerenih pružatelja sigurnosnih i nadzornih podataka.
+
+## Languages
+
+Stranica podržava svih 24 službenih jezika EU putem izbornika jezika (hreflang: hr, en, de, fr, it, es, pt, nl, pl, cs, sk, sl, hu, ro, bg, el, da, sv, fi, et, lv, lt, mt, ga).
 
 ## Optional
 
