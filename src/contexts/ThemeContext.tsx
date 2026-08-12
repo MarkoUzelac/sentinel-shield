@@ -11,9 +11,10 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const themes = [
-  { id: "cyber-dark" as ThemeName, name: "Cyber Dark", icon: "🌙" },
-  { id: "matrix-green" as ThemeName, name: "Matrix Green", icon: "💚" },
-  { id: "corporate-blue" as ThemeName, name: "Corporate Blue", icon: "💼" },
+  { id: "cyber-dark" as ThemeName, name: "Phosphor Dark", icon: "🌑" },
+  { id: "matrix-green" as ThemeName, name: "Phosphor Black", icon: "⬛" },
+  { id: "corporate-blue" as ThemeName, name: "Phosphor Light", icon: "☀️" },
+
 ];
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
