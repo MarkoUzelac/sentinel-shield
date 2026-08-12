@@ -14,7 +14,7 @@ const badgeVariants = cva(
         outline: "text-foreground border-border",
         success: "border-transparent bg-success/20 text-success border-success/30",
         warning: "border-transparent bg-accent/20 text-accent border-accent/30",
-        cyber: "border-primary/50 bg-primary/10 text-primary shadow-[0_0_10px_hsl(175_80%_50%/0.2)]",
+        cyber: "rounded-none border-primary/40 bg-primary/10 text-primary tracking-[0.16em]",
         legal: "border-destructive/50 bg-destructive/10 text-destructive",
       },
     },
