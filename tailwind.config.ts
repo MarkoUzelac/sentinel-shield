@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
@@ -93,8 +93,8 @@ export default {
           to: { opacity: "1", transform: "translateX(0)" },
         },
         "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(175 80% 50% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(175 80% 50% / 0.6)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(74 100% 47% / 0.25)" },
+          "50%": { boxShadow: "0 0 40px hsl(74 100% 47% / 0.55)" },
         },
       },
       animation: {

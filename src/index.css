@@ -201,7 +201,7 @@
     inset: 0;
     padding: 1px;
     border-radius: var(--radius);
-    background: linear-gradient(135deg, hsl(175 80% 50% / 0.5), transparent 50%, hsl(45 100% 60% / 0.3));
+    background: linear-gradient(135deg, hsl(74 100% 47% / 0.6), transparent 50%, hsl(74 100% 47% / 0.15));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -226,7 +226,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, hsl(175 80% 50% / 0.8), transparent);
+    background: linear-gradient(90deg, transparent, hsl(74 100% 47% / 0.9), transparent);
     animation: scan 3s linear infinite;
   }
 
@@ -262,8 +262,8 @@
 
   .bg-grid {
     background-image: 
-      linear-gradient(hsl(175 80% 50% / 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(175 80% 50% / 0.03) 1px, transparent 1px);
+      linear-gradient(hsl(74 100% 47% / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(74 100% 47% / 0.04) 1px, transparent 1px);
     background-size: 50px 50px;
   }
 
