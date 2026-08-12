@@ -176,8 +176,6 @@
     -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.35);
   }
 
-
-@layer components {
   .glow-primary {
     box-shadow: var(--glow-primary);
   }
@@ -187,8 +185,9 @@
   }
 
   .glow-text {
-    text-shadow: 0 0 20px hsl(175 80% 50% / 0.6);
+    text-shadow: 0 0 24px hsl(74 100% 47% / 0.55);
   }
+
 
   .gradient-border {
     position: relative;
