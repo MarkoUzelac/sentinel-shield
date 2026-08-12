@@ -146,13 +146,36 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply font-extrabold tracking-tighter;
   }
 
   code, pre, .mono {
     font-family: var(--font-mono);
   }
 }
+
+@layer components {
+  /* Phosphor eyebrow label: mono, uppercase, wide tracking */
+  .label-mono {
+    font-family: var(--font-mono);
+    @apply text-xs uppercase tracking-[0.18em] text-primary;
+  }
+
+  .label-muted {
+    font-family: var(--font-mono);
+    @apply text-xs uppercase tracking-[0.18em] text-muted-foreground;
+  }
+
+  /* Outlined display type, as in the Phosphor hero */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.35);
+  }
+
 
 @layer components {
   .glow-primary {
