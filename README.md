@@ -1,73 +1,85 @@
-# Welcome to your Lovable project
+# Sentinel Shield
 
-## Project info
+Sentinel Shield je moderna web aplikacija za pregled i vizualizaciju mrežne sigurnosti, s fokusom na stvarne podatke, jasnu evidenciju izvora i sigurnu kartografsku vizualizaciju.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Trenutni web stack
 
-## How can I edit this code?
+- Vite
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- MapLibre GL JS
+- OpenFreeMap
 
-There are several ways of editing your application.
+## Karta
 
-**Use Lovable**
+Web karta koristi **MapLibre GL JS** kao open-source renderer i **OpenFreeMap** kao javni map style/tile izvor. Google Maps/Mapbox runtime nije potreban za osnovni prikaz karte.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Implementirane su:
 
-Changes made via Lovable will be committed automatically to this repo.
+- interaktivna karta
+- geolokacija korisnika uz dopuštenje preglednika
+- reset prikaza na zadani položaj
+- stvarni GitHub link u footeru
+- centralizirani kartografski sloj spreman za daljnje povezivanje sa Sentinel Shield threat/evidence podacima
 
-**Use your preferred IDE**
+## Pokretanje lokalno
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Zahtjevi:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 20+
+- npm 10+
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/MarkoUzelac/sentinel-shield.git
+cd sentinel-shield
+npm ci
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Za produkcijski build:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+```
 
-**Use GitHub Codespaces**
+Za lokalni pregled produkcijskog builda:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm run preview
+```
 
-## What technologies are used for this project?
+## Važno za geolokaciju
 
-This project is built with:
+Browser geolokacija radi samo uz korisničko dopuštenje i u sigurnom kontekstu (HTTPS ili localhost). Odbijena dozvola ne smije se tretirati kao greška karte; aplikacija treba ostati funkcionalna bez geolokacije.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Arhitektura sigurnosnih podataka
 
-## How can I deploy this project?
+Sentinel Shield treba koristiti jedan kanonski izvor stvarnih opažanja (`ThreatSnapshot` / evidence pipeline) za Radar, Tactical Map i ostale prikaze. UI ne smije izmišljati uređaje, lokacije, handshakeove ili threat podatke koji nisu potvrđeni stvarnim izvorom.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Statusi poput `UNAVAILABLE`, `STALE` i `ACTIVE_UNVERIFIED` moraju ostati eksplicitni kada izvorni podaci nisu dostupni ili nisu dovoljno svježi.
 
-## Can I connect a custom domain to my Lovable project?
+## OpenFreeMap i produkcija
 
-Yes, you can!
+OpenFreeMap je praktičan za javni razvoj i demonstracije. Za veće produkcijsko opterećenje potrebno je provjeriti aktualne uvjete korištenja, dostupnost i eventualno koristiti vlastiti ili komercijalni tile/style servis.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Razvojni smjer
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Sljedeći koraci projekta uključuju:
+
+1. povezivanje karte s kanonskim Sentinel Shield evidence podacima
+2. Radar + Tactical Map projekcije iz istog `ThreatSnapshot` modela
+3. stvarni WireGuard handshake/freshness verification
+4. Android signal ingest za GPS, cellular, Wi-Fi, BLE i Connectivity/VPN
+5. GitHub Actions CI za lint, typecheck, build i artifact verification
+
+## GitHub
+
+Izvorni repozitorij:
+
+https://github.com/MarkoUzelac/sentinel-shield
+
+## Licenca
+
+Licenca i uvjeti distribucije trebaju biti definirani prije javnog produkcijskog izdanja.
