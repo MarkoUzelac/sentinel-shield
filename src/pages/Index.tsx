@@ -5,6 +5,7 @@ import { NetworkSpeedTest } from "@/components/NetworkSpeedTest";
 import { ToolCategories } from "@/components/ToolCategories";
 import { ToolComparison } from "@/components/ToolComparison";
 import { ThreatAssessment } from "@/components/ThreatAssessment";
+import { SecurityMap } from "@/components/SecurityMap";
 import { ProfessionalServices } from "@/components/ProfessionalServices";
 import { SubscriptionPlans } from "@/components/SubscriptionPlans";
 import { ExtendedJurisdictionInfo } from "@/components/ExtendedJurisdictionInfo";
@@ -32,6 +33,8 @@ const Index = () => {
           <ToolCategories />
         </div>
         
+        <SecurityMap />
+        
         <div id="comparison">
           <ToolComparison />
         </div>
@@ -49,7 +52,6 @@ const Index = () => {
         <Newsletter />
       </main>
 
-      {/* Footer */}
       <footer id="contact" className="border-t border-border bg-card/50 py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -86,15 +88,9 @@ const Index = () => {
             <div>
               <h4 className="font-semibold text-foreground mb-4">Poveznice</h4>
               <div className="space-y-2">
-                <a href="#services" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Usluge
-                </a>
-                <a href="#pricing" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Cijene
-                </a>
-                <a href="#faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
-                  FAQ
-                </a>
+                <a href="#services" className="block text-sm text-muted-foreground hover:text-primary transition-colors">Usluge</a>
+                <a href="#pricing" className="block text-sm text-muted-foreground hover:text-primary transition-colors">Cijene</a>
+                <a href="#faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</a>
               </div>
             </div>
           </div>
@@ -105,19 +101,12 @@ const Index = () => {
             </p>
             
             <div className="flex items-center gap-4">
-              <a 
-                href="https://github.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-2 rounded-lg hover:bg-secondary transition-colors group"
-              >
+              <a href="https://github.com/MarkoUzelac/sentinel-shield" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg hover:bg-secondary transition-colors group">
                 <Github className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
               </a>
             </div>
             
-            <p className="text-xs text-muted-foreground">
-              © 2025 SecHub Pro. Svi podaci su javno dostupni.
-            </p>
+            <p className="text-xs text-muted-foreground">© 2026 Sentinel Shield. Svi podaci su javno dostupni.</p>
           </div>
         </div>
       </footer>
