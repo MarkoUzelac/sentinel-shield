@@ -3,7 +3,6 @@ package com.sentinelshield.android
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.telephony.*
 import androidx.core.content.ContextCompat
 import java.time.Instant
@@ -74,7 +73,7 @@ class CellularEvidenceCollector(private val context: Context) {
         is CellInfoLte -> {
             val id = info.cellIdentity
             val s = info.cellSignalStrength
-            CellEvidence("LTE", info.isRegistered, id.mccString, id.mncString, id.ci.toLongOrNull(), id.tac, id.pci, s.rsrp.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
+            CellEvidence("LTE", info.isRegistered, id.mccString, id.mncString, id.ci.toLong(), id.tac, id.pci, s.rsrp.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
         }
         is CellInfoNr -> {
             val id = info.cellIdentity as CellIdentityNr
@@ -84,17 +83,17 @@ class CellularEvidenceCollector(private val context: Context) {
         is CellInfoWcdma -> {
             val id = info.cellIdentity
             val s = info.cellSignalStrength
-            CellEvidence("WCDMA", info.isRegistered, id.mccString, id.mncString, id.cid.toLongOrNull(), id.lac, id.psc, s.dbm.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
+            CellEvidence("WCDMA", info.isRegistered, id.mccString, id.mncString, id.cid.toLong(), id.lac, id.psc, s.dbm.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
         }
         is CellInfoGsm -> {
             val id = info.cellIdentity
             val s = info.cellSignalStrength
-            CellEvidence("GSM", info.isRegistered, id.mccString, id.mncString, id.cid.toLongOrNull(), id.lac, id.bsic, s.dbm.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
+            CellEvidence("GSM", info.isRegistered, id.mccString, id.mncString, id.cid.toLong(), id.lac, id.bsic, s.dbm.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
         }
         is CellInfoTdscdma -> {
             val id = info.cellIdentity
             val s = info.cellSignalStrength
-            CellEvidence("TD-SCDMA", info.isRegistered, id.mccString, id.mncString, id.cid.toLongOrNull(), id.lac, id.cpid, s.dbm.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
+            CellEvidence("TD-SCDMA", info.isRegistered, id.mccString, id.mncString, id.cid.toLong(), id.lac, id.cpid, s.dbm.takeUnless { it == CellInfo.UNAVAILABLE }, s.level, info.timestampMillis)
         }
         else -> CellEvidence("UNKNOWN", info.isRegistered, null, null, null, null, null, null, null, info.timestampMillis)
     }
