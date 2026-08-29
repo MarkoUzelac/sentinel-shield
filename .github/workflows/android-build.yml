@@ -40,6 +40,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="android-${GITHUB_SHA::7}"
-          gh release create "$TAG" android/app/build/outputs/apk/debug/app-debug.apk \
-            --title "Sentinel Shield Android ${GITHUB_SHA::7}" \
-            --notes "Verified debug APK built by GitHub Actions from commit $GITHUB_SHA."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --draft=false --latest
+          else
+            gh release create "$TAG" android/app/build/outputs/apk/debug/app-debug.apk \
+              --title "Sentinel Shield Android ${GITHUB_SHA::7}" \
+              --notes "Verified debug APK built by GitHub Actions from commit $GITHUB_SHA." \
+              --latest
+          fi
