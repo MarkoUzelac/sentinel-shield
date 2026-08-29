@@ -3,11 +3,11 @@ package com.sentinelshield.android
 import android.Manifest
 import android.os.Bundle
 import android.widget.TextView
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var output: TextView
     private val permissionRequest = 1001
 
@@ -23,10 +23,16 @@ class MainActivity : ComponentActivity() {
             .filter { ContextCompat.checkSelfPermission(this, it) != android.content.pm.PackageManager.PERMISSION_GRANTED }
         if (missing.isNotEmpty()) {
             ActivityCompat.requestPermissions(this, missing.toTypedArray(), permissionRequest)
-        } else collect()
+        } else {
+            collect()
+        }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == permissionRequest) collect()
     }
