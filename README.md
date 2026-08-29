@@ -1,12 +1,32 @@
 # Sentinel Shield
 
-Sentinel Shield je moderna web aplikacija za pregled i vizualizaciju mrežne sigurnosti. Aplikacija je namjerno **evidence-first**: UI ne smije prikazivati simulirane, procijenjene ili nasumično generirane sigurnosne podatke kao stvarne rezultate.
+Sentinel Shield je **evidence-first** sigurnosna aplikacija za mrežnu, telephony i cellular analitiku. Cilj projekta je prikazivati samo podatke koje je moguće dokazati iz stvarnog izvora.
 
-## Trenutni status
+> **Production rule:** nema mock podataka, nema testnih tornjeva, nema `Math.random()` sigurnosnih rezultata, nema izmišljenih koordinata, signala, brzina ili threat događaja.
 
-Ovaj repozitorij je **web klijent**, a ne native Android aplikacija.
+Ako stvarni izvor nije dostupan, UI mora prikazati `UNAVAILABLE`, `STALE` ili `ACTIVE_UNVERIFIED`, uz izvor i provenance. Nikada se ne smije popunjavati lažnim fallbackom.
 
-### Web stack
+## Cilj proizvoda
+
+Sentinel Shield treba biti **native Android APK**, a ne web aplikacija koja glumi pristup Android telephony hardveru.
+
+Web UI može služiti kao vizualizacijski sloj, ali autoritativni cellular/telephony podaci moraju dolaziti iz native Android sloja. Android ingest mora koristiti stvarne API-je uređaja i poštovati ograničenja konkretne verzije Androida, OEM-a, SIM-a, operatora i dodijeljenih runtime dozvola.
+
+Prioriteti proizvoda:
+
+- premium, precizan i čitljiv security UI/UX
+- stvarni podaci umjesto demonstracijskih podataka
+- jasna razlika između opaženog dokaza, neprovjerenog stanja i nedostupnosti
+- provenance za svaki važan rezultat
+- timestamp i freshness/TTL
+- native Android telemetry kao autoritativni izvor za cellular podatke
+- nikakvo pretvaranje javnih baza ili procjena u dokaz trenutnog stanja uređaja
+
+## Arhitektura
+
+Projekt ima dva sloja:
+
+### 1. Web/UI sloj
 
 - Vite
 - React
@@ -16,45 +36,228 @@ Ovaj repozitorij je **web klijent**, a ne native Android aplikacija.
 - MapLibre GL JS
 - OpenFreeMap
 
-### Stvarno dostupni web dokazi
+Web sloj prikazuje evidence objekte koje dobiva iz stvarnih izvora. Browser API-ji ne smiju se predstavljati kao zamjena za native Android telephony API-je.
 
-- IP geolokacija preko HTTPS API-ja, kada je API dostupan
-- browser geolokacija samo uz korisničko dopuštenje
-- WebRTC candidate audit, uz jasno označen status ako dokaz nije dostupan
-- stvarno mjerenje download brzine preko HTTP preuzimanja
-- stvarno mjerenje upload brzine preko HTTP POST mjerenja
+### 2. Native Android sloj
 
-Ako izvor ne odgovori ili dokaz nije dostupan, aplikacija prikazuje `UNAVAILABLE`/grešku. Ne koristi random fallback vrijednosti.
+Native Android modul nalazi se u `android/` i predstavlja izvor cellular/telephony evidence podataka.
 
-## Cellular / telephony ograničenja
+Koristi:
 
-Web preglednik nema ovlasti za izravan pristup Android telephony API-jima kao što su MCC/MNC, Cell ID, eNB/gNB, PCI, signal strength, network type ili operator koji trenutno opslužuje uređaj. Zbog toga web klijent **ne tvrdi da je detektirao bazne stanice ili IMSI catcher**.
+- Kotlin
+- Android Gradle Plugin
+- `TelephonyManager`
+- `SubscriptionManager`
+- Android runtime permissions
+- Android `CellInfo` API-je
 
-Trenutni UI razlikuje:
+Native aplikacija se gradi kao Android APK kroz Gradle i GitHub Actions.
 
-- javni MCC/MNC registar za državu IP lokacije — informativno
-- stvarni cellular ingest uređaja — `UNAVAILABLE` u web klijentu
+## Native cellular / telephony ingest
 
-Nema simuliranih tornjeva, slučajnih koordinata, slučajnog signala niti lažne udaljenosti.
+Native ingest mora prikupljati **samo stvarno opažene podatke uređaja**.
 
-## Android ingest
+Implementirani izvori uključuju:
 
-Za stvarne cellular/telephony dokaze potreban je zaseban native Android sloj koji prikuplja samo podatke za koje Android verzija, uređaj i dodijeljene runtime dozvole to dopuštaju. Taj sloj treba slati potpisani/validirani `ThreatSnapshot` ili drugi kanonski evidence objekt web/UI sloju.
+- `TelephonyManager`
+- `SubscriptionManager`
+- aktivne SIM/subscription podatke
+- registrirane i opažene ćelije
+- LTE
+- 5G NR
+- WCDMA
+- GSM
+- TD-SCDMA
 
-Potrebno je implementirati i testirati prije nego što se status može označiti kao `ACTIVE`:
+Za ćelije se, kada ih Android uređaj stvarno izloži, prikupljaju:
 
-1. runtime permission flow za lokaciju i relevantne telephony/network podatke
-2. stvarni `TelephonyManager`/`SubscriptionManager` ingest gdje je dopušten
-3. cellular identity i signal evidence s timestampom
-4. freshness/TTL i source provenance
-5. jasno `UNAVAILABLE` ponašanje kada OEM/Android verzija blokira podatke
-6. MMI/USSD intent kao korisnički pokrenuta radnja, nikad kao lažni dokaz operatorovog odgovora
+- MCC
+- MNC
+- Cell ID / CI / NCI
+- TAC/LAC odnosno odgovarajući area code
+- PCI/PSC/BSIC/CPID gdje je primjenjivo
+- signal strength u dBm kada je dostupan
+- signal level
+- registration state
+- Android cell-info timestamp
 
-## Karta
+Podaci koji nisu dostupni na konkretnom uređaju moraju ostati `null`/`UNAVAILABLE`; ne smiju se procjenjivati ili generirati.
 
-Web karta koristi **MapLibre GL JS** i **OpenFreeMap**. Karta ne smije prikazivati threat/cellular markere ako za njih ne postoji stvarni evidence zapis.
+### Runtime permissions
 
-## Pokretanje
+Native sloj mora eksplicitno provjeravati runtime dozvole prije čitanja telephony podataka. Trenutna implementacija koristi:
+
+- `ACCESS_FINE_LOCATION`
+- `READ_PHONE_STATE`
+
+Manifest može deklarirati i druge potrebne network/telephony dozvole, ali aplikacija ne smije tvrditi da ima podatke samo zato što je dozvola deklarirana. Android verzija, OEM i operator mogu dodatno ograničiti dostupnost podataka.
+
+Ako obavezna dozvola nedostaje:
+
+`status = UNAVAILABLE`
+
+`provenance = runtime_permission_missing`
+
+### Freshness
+
+Svaki cellular snapshot mora imati vrijeme prikupljanja i, kada Android izvor daje timestamp, dob podataka.
+
+Standardna stanja:
+
+- `ACTIVE` — dokaz je dostupan i svjež
+- `STALE` — dokaz postoji, ali je stariji od definiranog TTL-a
+- `ACTIVE_UNVERIFIED` — podatak postoji, ali nema dovoljno vremenskog dokaza za punu potvrdu
+- `UNAVAILABLE` — stvarni dokaz nije dostupan
+
+Trenutni native collector koristi TTL od **5 minuta** za cell-info freshness.
+
+## Provenance / evidence model
+
+Svaki sigurnosni rezultat mora jasno identificirati:
+
+- `source`
+- `observedAt` / `capturedAt`
+- `status`
+- payload
+- provenance
+- freshness kada je primjenjiv
+
+Primjer native cellular izvora:
+
+`Android TelephonyManager/SubscriptionManager`
+
+Primjer provenancea:
+
+`device_observed_cell_info`
+
+Nedostatak dozvole mora biti eksplicitno označen kao:
+
+`runtime_permission_missing`
+
+Javna baza, IP geolokacija, carrier registry ili procjena **nije dokaz** da je određena bazna stanica trenutno fizički prisutna na lokaciji uređaja.
+
+## Karta i OpenCellID
+
+Karta smije prikazivati cellular/threat markere samo kada postoji stvarni evidence zapis koji ih podržava.
+
+Javne baze poput OpenCellID mogu služiti kao pomoćni/registarski izvor za geografsko obogaćivanje, ali rezultat mora biti označen kao vanjski/registarski podatak. Ne smije se prikazivati kao trenutna opažena ćelija uređaja bez odgovarajućeg native evidence zapisa.
+
+Ako nema stvarnog koordinatnog dokaza za ćeliju, karta ne smije izmišljati lokaciju iz nasumičnog offseta ili procjene.
+
+## Mrežni audit
+
+Network audit treba koristiti stvarne browser/Android network capability podatke i stvarne HTTPS probe gdje su podržani.
+
+Rezultat mora razlikovati:
+
+- dostupnost mreže
+- capability podatke uređaja
+- stvarno uspješan HTTPS probe
+- latency/mjerenje kada je stvarno izmjereno
+- nedostupan ili neprovjeren rezultat
+
+Ne smije se koristiti random ili procijenjena vrijednost kao dokaz mrežnog stanja.
+
+## Speed test
+
+Download i upload moraju biti **stvarno mjereni** prijenosom podataka.
+
+Nije dopušteno:
+
+- `upload = download * faktor`
+- `Math.random()` fallback
+- hardkodirana brzina predstavljena kao stvarno mjerenje
+- lažni rezultat kada endpoint ne odgovori
+
+Ako mjerenje ne uspije, rezultat je `UNAVAILABLE` ili odgovarajuća greška.
+
+## Call & MMI audit
+
+MMI/USSD kodovi mogu biti poslani prema Android dialeru samo kao korisnički pokrenuta radnja.
+
+Dial intent sam po sebi **nije dokaz odgovora operatora**.
+
+Aplikacija ne smije tvrditi da je MMI/USSD rezultat verificiran ako stvarni odgovor operatora nije automatski i pouzdano dostupan kao evidence podatak.
+
+Primjereni statusi uključuju `UNVERIFIED` kada je potrebna korisnička/operator evaluacija.
+
+## Telephony / RF audit
+
+RF/cellular audit mora se temeljiti na native Android telemetry podacima kada su dostupni.
+
+Aplikacija mora jasno pokazati kada nedostaju:
+
+- location permission
+- phone-state permission
+- cell-info podaci
+- signal strength
+- identity podaci
+- dovoljno svjež timestamp
+
+Ne smije se iz nedostatka podataka zaključiti da postoji prijetnja, niti se smije generirati lažni signal ili lažna bazna stanica.
+
+## Threat detection
+
+Sentinel Shield ne smije predstavljati **IMSI catcher, rogue cell, MITM ili drugi threat kao potvrđen** samo na temelju jednog indikatora, javne baze, procjene ili browser podatka.
+
+Threat rezultat mora biti vezan uz konkretan evidence payload i provenance. Ako nema dovoljno dokaza, UI mora koristiti neprovjereno ili nedostupno stanje.
+
+## Nema testnih podataka
+
+Production UI ne smije imati:
+
+- `load test data`
+- fake towers
+- synthetic cells
+- random coordinates
+- random signal values
+- random network speeds
+- fabricated threat events
+- fabricated carrier evidence
+- fallback koji izgleda kao stvarni rezultat
+
+Testovi mogu koristiti fixture podatke unutar testnog okruženja, ali ti podaci nikada ne smiju biti prikazani kao production telemetry.
+
+## Android build
+
+Native Android build mora koristiti:
+
+- JDK 17
+- Kotlin JVM 17
+- Android SDK 35
+- Gradle
+- `assembleDebug`
+
+GitHub Actions Android CI mora:
+
+1. instalirati JDK 17
+2. pripremiti Android SDK
+3. izgraditi native APK
+4. provjeriti da APK postoji i nije prazan
+5. uploadati APK kao build artifact
+
+Android CI ne smije biti označen kao PASS dok Gradle build, APK verification i artifact upload stvarno ne završe uspješno.
+
+## Web CI
+
+Web CI mora provjeriti:
+
+- `npm ci`
+- ESLint
+- TypeScript typecheck
+- produkcijski Vite build
+- postojanje `dist/index.html`
+- build artifact
+
+## GitHub workflow pravilo
+
+Svaki neuspjeli CI rezultat mora se tretirati kao stvarni blocker:
+
+`CI failure → analiza loga → minimalni popravak → commit → novi CI run`
+
+Ne smije se označiti projekt kao PASS na temelju pretpostavke ili samo zato što source izgleda ispravno.
+
+## Pokretanje web klijenta
 
 Zahtjevi:
 
@@ -80,32 +283,35 @@ Lokalni pregled:
 npm run preview
 ```
 
-## CI
+## Pokretanje native Android builda
 
-GitHub Actions workflow provjerava:
+Iz root direktorija projekta:
 
-- `npm ci`
-- ESLint
-- TypeScript typecheck
-- produkcijski Vite build
-- postojanje i veličinu `dist/index.html`
-- build artifact
+```bash
+gradle -p android :app:assembleDebug
+```
 
-## Evidence pravilo
+APK se očekuje na:
 
-Svi sigurnosni prikazi trebaju koristiti kanonski evidence model (`ThreatSnapshot` ili ekvivalent). Svaki rezultat mora imati barem:
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
+```
 
-- `source`
-- `observedAt`
-- `status`
-- relevantan payload
-- provenance kada je primjenjivo
+## Trenutni status
 
-Stanja `UNAVAILABLE`, `STALE` i `ACTIVE_UNVERIFIED` moraju ostati eksplicitna. Nikakav `Math.random()` ne smije služiti za generiranje sigurnosnog rezultata, lokacije, signala, brzine ili threat događaja.
+Native Android cellular ingest je implementiran i koristi stvarne Android telephony API-je umjesto simuliranih podataka.
 
-## Napomena o brzini
+Android CI je konfiguriran za JDK 17 / Kotlin JVM 17 i generiranje debug APK-a.
 
-Speed test mjeri stvarni prijenos podataka prema testnom endpointu. Ne koristi procjenu `upload = download × faktor` i ne ubacuje lažne vrijednosti kada endpoint ne odgovori.
+Web i Android CI rezultati moraju se uvijek provjeravati na konkretnom GitHub Actions runu prije označavanja builda kao PASS.
+
+## Ograničenja Androida
+
+Dostupnost cellular podataka nije jednaka na svim uređajima. Android API, OEM, modem, dual-SIM konfiguracija, operator i runtime permissions mogu ograničiti dostupna polja.
+
+Zbog toga je **točnost** definirana kao točan prikaz stvarno dostupnog izvora, a ne kao izmišljanje nedostajućih vrijednosti.
+
+`UNAVAILABLE` je valjan i očekivan rezultat kada uređaj ne daje potreban dokaz.
 
 ## Licenca
 
