@@ -1,8 +1,12 @@
 # Sentinel Shield
 
-Sentinel Shield je moderna web aplikacija za pregled i vizualizaciju mrežne sigurnosti, s fokusom na stvarne podatke, jasnu evidenciju izvora i sigurnu kartografsku vizualizaciju.
+Sentinel Shield je moderna web aplikacija za pregled i vizualizaciju mrežne sigurnosti. Aplikacija je namjerno **evidence-first**: UI ne smije prikazivati simulirane, procijenjene ili nasumično generirane sigurnosne podatke kao stvarne rezultate.
 
-## Trenutni web stack
+## Trenutni status
+
+Ovaj repozitorij je **web klijent**, a ne native Android aplikacija.
+
+### Web stack
 
 - Vite
 - React
@@ -12,19 +16,45 @@ Sentinel Shield je moderna web aplikacija za pregled i vizualizaciju mrežne sig
 - MapLibre GL JS
 - OpenFreeMap
 
+### Stvarno dostupni web dokazi
+
+- IP geolokacija preko HTTPS API-ja, kada je API dostupan
+- browser geolokacija samo uz korisničko dopuštenje
+- WebRTC candidate audit, uz jasno označen status ako dokaz nije dostupan
+- stvarno mjerenje download brzine preko HTTP preuzimanja
+- stvarno mjerenje upload brzine preko HTTP POST mjerenja
+
+Ako izvor ne odgovori ili dokaz nije dostupan, aplikacija prikazuje `UNAVAILABLE`/grešku. Ne koristi random fallback vrijednosti.
+
+## Cellular / telephony ograničenja
+
+Web preglednik nema ovlasti za izravan pristup Android telephony API-jima kao što su MCC/MNC, Cell ID, eNB/gNB, PCI, signal strength, network type ili operator koji trenutno opslužuje uređaj. Zbog toga web klijent **ne tvrdi da je detektirao bazne stanice ili IMSI catcher**.
+
+Trenutni UI razlikuje:
+
+- javni MCC/MNC registar za državu IP lokacije — informativno
+- stvarni cellular ingest uređaja — `UNAVAILABLE` u web klijentu
+
+Nema simuliranih tornjeva, slučajnih koordinata, slučajnog signala niti lažne udaljenosti.
+
+## Android ingest
+
+Za stvarne cellular/telephony dokaze potreban je zaseban native Android sloj koji prikuplja samo podatke za koje Android verzija, uređaj i dodijeljene runtime dozvole to dopuštaju. Taj sloj treba slati potpisani/validirani `ThreatSnapshot` ili drugi kanonski evidence objekt web/UI sloju.
+
+Potrebno je implementirati i testirati prije nego što se status može označiti kao `ACTIVE`:
+
+1. runtime permission flow za lokaciju i relevantne telephony/network podatke
+2. stvarni `TelephonyManager`/`SubscriptionManager` ingest gdje je dopušten
+3. cellular identity i signal evidence s timestampom
+4. freshness/TTL i source provenance
+5. jasno `UNAVAILABLE` ponašanje kada OEM/Android verzija blokira podatke
+6. MMI/USSD intent kao korisnički pokrenuta radnja, nikad kao lažni dokaz operatorovog odgovora
+
 ## Karta
 
-Web karta koristi **MapLibre GL JS** kao open-source renderer i **OpenFreeMap** kao javni map style/tile izvor. Google Maps/Mapbox runtime nije potreban za osnovni prikaz karte.
+Web karta koristi **MapLibre GL JS** i **OpenFreeMap**. Karta ne smije prikazivati threat/cellular markere ako za njih ne postoji stvarni evidence zapis.
 
-Implementirane su:
-
-- interaktivna karta
-- geolokacija korisnika uz dopuštenje preglednika
-- reset prikaza na zadani položaj
-- stvarni GitHub link u footeru
-- centralizirani kartografski sloj spreman za daljnje povezivanje sa Sentinel Shield threat/evidence podacima
-
-## Pokretanje lokalno
+## Pokretanje
 
 Zahtjevi:
 
@@ -38,47 +68,44 @@ npm ci
 npm run dev
 ```
 
-Za produkcijski build:
+Produkcijski build:
 
 ```bash
 npm run build
 ```
 
-Za lokalni pregled produkcijskog builda:
+Lokalni pregled:
 
 ```bash
 npm run preview
 ```
 
-## Važno za geolokaciju
+## CI
 
-Browser geolokacija radi samo uz korisničko dopuštenje i u sigurnom kontekstu (HTTPS ili localhost). Odbijena dozvola ne smije se tretirati kao greška karte; aplikacija treba ostati funkcionalna bez geolokacije.
+GitHub Actions workflow provjerava:
 
-## Arhitektura sigurnosnih podataka
+- `npm ci`
+- ESLint
+- TypeScript typecheck
+- produkcijski Vite build
+- postojanje i veličinu `dist/index.html`
+- build artifact
 
-Sentinel Shield treba koristiti jedan kanonski izvor stvarnih opažanja (`ThreatSnapshot` / evidence pipeline) za Radar, Tactical Map i ostale prikaze. UI ne smije izmišljati uređaje, lokacije, handshakeove ili threat podatke koji nisu potvrđeni stvarnim izvorom.
+## Evidence pravilo
 
-Statusi poput `UNAVAILABLE`, `STALE` i `ACTIVE_UNVERIFIED` moraju ostati eksplicitni kada izvorni podaci nisu dostupni ili nisu dovoljno svježi.
+Svi sigurnosni prikazi trebaju koristiti kanonski evidence model (`ThreatSnapshot` ili ekvivalent). Svaki rezultat mora imati barem:
 
-## OpenFreeMap i produkcija
+- `source`
+- `observedAt`
+- `status`
+- relevantan payload
+- provenance kada je primjenjivo
 
-OpenFreeMap je praktičan za javni razvoj i demonstracije. Za veće produkcijsko opterećenje potrebno je provjeriti aktualne uvjete korištenja, dostupnost i eventualno koristiti vlastiti ili komercijalni tile/style servis.
+Stanja `UNAVAILABLE`, `STALE` i `ACTIVE_UNVERIFIED` moraju ostati eksplicitna. Nikakav `Math.random()` ne smije služiti za generiranje sigurnosnog rezultata, lokacije, signala, brzine ili threat događaja.
 
-## Razvojni smjer
+## Napomena o brzini
 
-Sljedeći koraci projekta uključuju:
-
-1. povezivanje karte s kanonskim Sentinel Shield evidence podacima
-2. Radar + Tactical Map projekcije iz istog `ThreatSnapshot` modela
-3. stvarni WireGuard handshake/freshness verification
-4. Android signal ingest za GPS, cellular, Wi-Fi, BLE i Connectivity/VPN
-5. GitHub Actions CI za lint, typecheck, build i artifact verification
-
-## GitHub
-
-Izvorni repozitorij:
-
-https://github.com/MarkoUzelac/sentinel-shield
+Speed test mjeri stvarni prijenos podataka prema testnom endpointu. Ne koristi procjenu `upload = download × faktor` i ne ubacuje lažne vrijednosti kada endpoint ne odgovori.
 
 ## Licenca
 
