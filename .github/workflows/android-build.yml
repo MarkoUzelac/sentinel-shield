@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   android:
@@ -34,3 +34,12 @@ jobs:
           name: sentinel-shield-android-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+      - name: Publish APK release on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="android-${GITHUB_SHA::7}"
+          gh release create "$TAG" android/app/build/outputs/apk/debug/app-debug.apk \
+            --title "Sentinel Shield Android ${GITHUB_SHA::7}" \
+            --notes "Verified debug APK built by GitHub Actions from commit $GITHUB_SHA."
