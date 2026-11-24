@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity() {
                 appendLine("Area: ${cell.areaCode ?: "UNAVAILABLE"}")
                 appendLine("PCI: ${cell.pci ?: "UNAVAILABLE"}")
                 appendLine("Signal: ${cell.signalDbm?.let { "$it dBm" } ?: "UNAVAILABLE"}")
-                appendLine("Timestamp: ${cell.timestampMillis ?: "UNAVAILABLE"}")
+                appendLine("Cell timestamp since boot: ${cell.timestampElapsedRealtimeMs?.let { "$it ms" } ?: "UNAVAILABLE"}")
+                cell.channelNumber?.let { appendLine("NR-ARFCN: $it") }
             }
         }
     }
